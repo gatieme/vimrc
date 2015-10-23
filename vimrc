@@ -86,6 +86,8 @@ set wildignore=*.swp,*.bak,*.pyc,*.class,.svn
 set cursorcolumn
 set cursorline          " 突出显示当前行
 
+" 让第80列高亮
+set cc=81
 
 "设置 退出vim后，内容显示在终端屏幕, 可以用于查看和复制
 "好处：误删什么的，如果以前屏幕打开，可以找回
@@ -141,6 +143,10 @@ set scrolloff=7
 set statusline=%<%f\ %h%m%r%=%k[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-14.(%l,%c%V%)\ %P
 " Always show the status line - use 2 lines for the status bar
 set laststatus=2
+"set statusline=[%F]%y%r%m%*%=[Line:%l/%L,Column:%c][%p%%]
+"set laststatus=2
+"set ruler
+
 
 "显示行号：
 set number
@@ -558,10 +564,8 @@ function! AutoSetFileHead()
 
         call append(1, "\# encoding: utf-8")
 
-    endif
-
     "如果文件类型为.sh文件
-    if &filetype == 'sh'
+    elseif &filetype == 'sh'
         call setline(1,"\#########################################################################")
 
         call append(line("."), "\# File Name: ".expand("%"))
@@ -578,7 +582,29 @@ function! AutoSetFileHead()
 
         call append(line(".")+6, "")
 
-    else
+    elseif &filetype == 'c'
+
+        call setline(1, "/*************************************************************************")
+
+        call append(line("."), "    > File Name: ".expand("%"))
+
+        call append(line(".")+1, "    > Author: GatieMe")
+
+        call append(line(".")+2, "    > Mail: gatieme@163.com")
+
+        call append(line(".")+3, "    > Created Time: ".strftime("%c"))
+
+        call append(line(".")+4, " ************************************************************************/")
+
+        call append(line(".")+5, "")
+
+        call append(line(".")+6, "#include <stdio.h>")
+
+        call append(line(".")+7, "#include <stdlib.h>")
+
+	    call append(line(".")+8, "")
+
+    elseif &filetype == 'cpp'
 
         call setline(1, "/*************************************************************************")
 
@@ -594,10 +620,6 @@ function! AutoSetFileHead()
 
         call append(line(".")+5, "")
 
-    endif
-
-    if &filetype == 'cpp'
-
         call append(line(".")+6, "#include <iostream>")
 
         call append(line(".")+7, "using namespace std;")
@@ -606,22 +628,13 @@ function! AutoSetFileHead()
 
     endif
 
-    if &filetype == 'c'
-
-        call append(line(".")+6, "#include <stdio.h>")
-
-        call append(line(".")+7, "#include <stdlib.h>")
-
-	    call append(line(".")+8, "")
-
-    endif
 
 
     "新建文件后，自动定位到文件末尾
-    autocmd BufNewFile * normal G
-    "normal G
-    "normal o
-    "normal o
+    "autocmd BufNewFile * normal G
+    normal G
+    normal o
+    normal o
 
 endfunc
 
@@ -651,13 +664,13 @@ func! CompileRunGcc()
 		" http://blog.csdn.net/gatieme/article/details/44956967
 		if exists("/usr/local/bin/color_compile")
 
-			exec "!gcc % -o %< -lm"
+			exec "!gcc % -o %< -lm -Wall -std=c99"
 
 			exec "! ./%<"
 
 		else
 
-			exec "!color_compile gcc % -o %< -lm"
+			exec "!color_compile gcc % -o %< -lm -Wall -std=c99"
 
 			exec "! ./%<"
 
@@ -667,30 +680,33 @@ func! CompileRunGcc()
 
 		if exists("/usr/local/bin/color_compile")
 
-			exec "! g++ % -o %< -lm"
+			exec "! g++ % -o %< -lm -Wall"
 
 			exec "! ./%<"
 
 		else
 
-			exec "!color_compile g++ % -o %< -lm"
+			exec "!color_compile g++ % -o %< -lm -Wall"
 
 			exec "! ./%<"
 
         endif
-	elseif &filetype == 'java'
+
+	elseif &filetype == 'py'
+
+        exec ":!python ./%"
+        "exec "!/usr/bin/env python %"
+
+    elseif &filetype == 'sh'
+
+        :!sh ./%
+
+    elseif &filetype == 'java'
 
         exec "!javac %"
 
         exec "!java %<"
 
-	elseif &filetype == 'py'
-
-		exec "!python %"
-
-    elseif &filetype == 'sh'
-
-        :!./%
     endif
 
 endfunc
@@ -727,6 +743,26 @@ if has("gui_running")
     set noimd
     set t_Co=256
 endif
+
+"
+"  安装了tmux终端功能后，vim显示不正常
+"  使用如下配置修复
+
+
+" 使用tmux后vim颜色不正常的修复
+"if exists('$TMUX')
+"    set term=screen-256color
+"endif
+
+"if exists('$ITERM_PROFILE')
+"    if exists('$TMUX')
+"       let &amp;t_SI = "<Esc>[3 q"
+"        let &amp;t_EI = "<Esc>[0 q"
+"    else
+"        let &amp;t_SI = "<Esc>]50;CursorShape=1x7"
+"        let &amp;t_EI = "<Esc>]50;CursorShape=0x7"
+"    endif
+"endif
 
 " allows cursor change in tmux mode
 if exists('$TMUX')
@@ -1000,6 +1036,8 @@ inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 " snippets expand key
 imap <silent> <C-e> <Plug>(neocomplcache_snippets_expand)
 smap <silent> <C-e> <Plug>(neocomplcache_snippets_expand)
+
+
 
 
 "-----------------------------------------------------------------
