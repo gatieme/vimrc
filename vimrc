@@ -664,13 +664,13 @@ func! CompileRunGcc()
 		" http://blog.csdn.net/gatieme/article/details/44956967
 		if exists("/usr/local/bin/color_compile")
 
-			exec "!gcc % -o %< -lm -Wall -std=c99"
+			exec "!gcc % -o %< -lm -lpthread -Wall -std=gnu9x"
 
 			exec "! ./%<"
 
 		else
 
-			exec "!color_compile gcc % -o %< -lm -Wall -std=c99"
+			exec "!color_compile gcc % -o %< -lm -lpthread -Wall -std=gnu9x"
 
 			exec "! ./%<"
 
@@ -694,7 +694,7 @@ func! CompileRunGcc()
 
 	elseif &filetype == 'py'
 
-        exec ":!python ./%"
+        exec "!python ./%"
         "exec "!/usr/bin/env python %"
 
     elseif &filetype == 'sh'
@@ -716,11 +716,17 @@ endfunc
 
 " set some keyword to highlight
 if has("autocmd")
-  " Highlight TODO, FIXME, NOTE, etc.
-  if v:version > 701
-    autocmd Syntax * call matchadd('Todo',  '\W\zs\(TODO\|FIXME\|CHANGED\|DONE\|XXX\|BUG\|HACK\)')
-    autocmd Syntax * call matchadd('Debug', '\W\zs\(NOTE\|INFO\|IDEA\|NOTICE\)')
-  endif
+
+    " Highlight TODO, FIXME, NOTE, etc.
+
+    if v:version > 701
+
+        autocmd Syntax * call matchadd('Todo',  '\W\zs\(TODO\|FIXME\|CHANGED\|DONE\|XXX\|BUG\|HACK\)')
+
+        autocmd Syntax * call matchadd('Debug', '\W\zs\(NOTE\|INFO\|IDEA\|NOTICE\)')
+
+    endif
+
 endif
 
 "==========================================
