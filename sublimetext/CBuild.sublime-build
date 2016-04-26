@@ -1,0 +1,27 @@
+
+{
+    "cmd": ["gcc", "${file}", "-o", "${file_path}/${file_base_name}.exe", "-std=c99"],
+
+    "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+
+    "working_dir": "${file_path}",
+
+    "selector": "source.c++",
+
+    "encoding": "utf-8",
+    
+    "shell": true,
+
+    "variants": 
+    [
+        {   
+        "name": "Run in sublime",
+            "shell_cmd": "gcc -Wall -std=gnu99 \"$file_name\" -o \"$file_base_name\" && cmd /c \"${file_path}/${file_base_name}\""
+        },
+        {   
+        "name": "CMD Run",
+            "shell_cmd": "gcc -Wall -std=gnu99  \"$file\" -o \"$file_base_name\" && start cmd /c \"\"${file_path}/${file_base_name}\" & pause\""
+        }
+    ]
+
+}

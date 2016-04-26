@@ -1,0 +1,23 @@
+{
+	"color_scheme": "Packages/Theme - Brogrammer/brogrammer.tmTheme",
+	"font_face": "Courier New bold",
+	"font_size": 17,
+	"ignored_packages":
+	[
+	],
+	"jsdocs_extra_tags":
+	[
+		"@Author   gatieme",
+		"@DateTime {{datetime}}"
+	],
+	"tab_size": 4,
+	"theme": "Brogrammer.sublime-theme",
+	"translate_tabs_to_spaces": true,
+	"word_wrap": true,
+
+	"glue_userpath": "C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;",
+	"glue_shellpath": "C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\powershell.exe",
+
+
+
+}
