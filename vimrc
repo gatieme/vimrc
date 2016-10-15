@@ -734,10 +734,17 @@ endif
 "==========================================
 
 " Set extra options when running in GUI mode
+"set guifont=Courier\ New\ Bold\ 16
 if has("gui_running")
-    set guifont=Monaco:h14
-    if has("gui_gtk2")   "GTK2
+    "set guifont=Monaco:h14
+    if has("gui_gtk2")
+        set guifont=Courier\ New\ Bold\ 16,Monospace\ 12
+    elseif has("gui_macvim")
+        "set guifont=DejaVu\ Sans\ Mono\ 11
         set guifont=Monaco\ 12,Monospace\ 12
+    elseif has("gui_win32")
+        set guifont=Monaco\ 12,Monospace\ 12
+        "set guifont=DejaVu_Sans_Mono:h11
     endif
     set guioptions-=T
     set guioptions+=e
@@ -749,6 +756,7 @@ if has("gui_running")
     set noimd
     set t_Co=256
 endif
+
 
 "
 "  安装了tmux终端功能后，vim显示不正常
