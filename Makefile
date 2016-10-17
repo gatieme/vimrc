@@ -1,4 +1,4 @@
-GITHUB_COMMIT="vimrc中增加了对鼠标的支持, gvim下鼠标右键支持菜单显示..."
+GITHUB_COMMIT="删除了主题配置colorscheme solarized, 在多数系统中报错..."
 
 
 .PHONY	:	github
