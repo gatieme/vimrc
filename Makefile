@@ -1,4 +1,4 @@
-GITHUB_COMMIT="增加了vimrc对gui的支持, 增加了通用的myshrc.sh配置脚本..."
+GITHUB_COMMIT="vimrc中增加了对鼠标的支持, gvim下鼠标右键支持菜单显示..."
 
 
 .PHONY	:	github
