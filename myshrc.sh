@@ -23,21 +23,14 @@ fi
 
 
 #---------------------
-# java path
+# modify by gatieme at 2015-10-06 20:47 for colorful `cat`
+# Colored up cat!
+# You must install Pygments first
+# sudo apt-get install python-pygments
+# OR wget https://pypi.python.org/packages/source/P/Pygments/Pygments-2.0.2.tar.gz#md5=238587a1370d62405edabd0794b3ec4a
 #---------------------
-JAVA_HOME=/usr/lib/jvm/java-8-oracle
-JRE_HOME=$JAVA_HOME/jre
-JAVA_BIN=$JAVA_HOME/bin
-CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib
-PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
-export JAVA_HOME JRE_HOME PATH CLASSPATH
-
-
-#---------------------
-# arm-linux-gcc
-#---------------------
-PATH=$PATH:/opt/arm/toolschain/4.5.1/bin
-export PATH
+alias color_cat='pygmentize -O style=monokai -f console256 -g'
+alias CAT='pygmentize -O style=monokai -f console256 -g'
 
 
 #---------------------
@@ -86,3 +79,25 @@ eval "$(thefuck --alias)"
 # You can use whatever you want as an alias, like for Mondays:
 #---------------------
 eval "$(thefuck --alias FUCK)"
+
+
+
+#---------------------
+# java path
+#---------------------
+JAVA_HOME=/usr/lib/jvm/java-8-oracle
+JRE_HOME=$JAVA_HOME/jre
+JAVA_BIN=$JAVA_HOME/bin
+CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib
+PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
+export JAVA_HOME JRE_HOME PATH CLASSPATH
+
+
+#---------------------
+# arm-linux-gcc
+#---------------------
+PATH=$PATH:/opt/arm/arm-linux-gcc/4.5.1/bin
+export PATH
+
+#export QMAKESPEC=/opt/arm/qt/qt4.8.0-arm/mkspecs/linux-g++
+
