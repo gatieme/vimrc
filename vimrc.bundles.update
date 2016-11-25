@@ -825,8 +825,8 @@ function! ToggleNERDTreeAndTagbar( )
         wincmd k
         wincmd L
     else
-        NERDTreeToggle
         TagbarOpen
+        NERDTreeToggle
         wincmd J
         wincmd k
         wincmd L
