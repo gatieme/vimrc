@@ -1,19 +1,19 @@
 "  Gvim中文菜单乱码解决方案
 "  http://blog.csdn.net/laruence/article/details/2603031
-set encoding=utf-8  
-set fileencodings=utf-8,chinese,latin-1  
-if has("win32")  
- set fileencoding=chinese  
-else  
- set fileencoding=utf-8  
-endif  
-  
-"解决菜单乱码  
-source $VIMRUNTIME/delmenu.vim  
+set encoding=utf-8
+set fileencodings=utf-8,chinese,latin-1
+if has("win32")
+ set fileencoding=chinese
+else
+ set fileencoding=utf-8
+endif
+
+"解决菜单乱码
+source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
 
-"解决consle输出乱码  
-language messages zh_CN.utf-8  
+"解决consle输出乱码
+language messages zh_CN.utf-8
 
 
 " 2017-02-04修改"
@@ -26,7 +26,7 @@ if(has("win32") || has("win64") || has("win95") || has("win16"))
 else
     let g:iswindows = 0
 endif
- 
+
 "------------------------------------------------------------------------------
 "  < 判断是终端还是 Gvim >
 "------------------------------------------------------------------------------
@@ -35,36 +35,37 @@ if has("gui_running")
 else
     let g:isGUI = 0
 endif
- 
+
 "------------------------------------------------------------------------------
 "  < 编译、连接、运行配置 >
 "------------------------------------------------------------------------------
 " F9 一键保存、编译、连接存并运行
 map <F9> :call Run()<CR>
 imap <F9> <ESC>:call Run()<CR>
- 
+
 " Ctrl + F9 一键保存并编译
 map <c-F9> :call Compile()<CR>
 imap <c-F9> <ESC>:call Compile()<CR>
- 
+
 " Ctrl + F10 一键保存并连接
 map <c-F10> :call Link()<CR>
 imap <c-F10> <ESC>:call Link()<CR>
- 
+
 let s:LastShellReturn_C = 0
 let s:LastShellReturn_L = 0
 let s:ShowWarning = 1
 let s:Obj_Extension = '.o'
 let s:Exe_Extension = '.exe'
 let s:Sou_Error = 0
- 
+
 let s:windows_CFlags = 'gcc\ -fexec-charset=gbk\ -Wall\ -g\ -O0\ -c\ %\ -o\ %<.o'
 let s:linux_CFlags = 'gcc\ -Wall\ -g\ -O0\ -c\ %\ -o\ %<.o'
- 
+
 let s:windows_CPPFlags = 'g++\ -fexec-charset=gbk\ -Wall\ -g\ -O0\ -c\ %\ -o\ %<.o'
 let s:linux_CPPFlags = 'g++\ -Wall\ -g\ -O0\ -c\ %\ -o\ %<.o'
- 
+
 func! Compile()
+    exe ":w!"
     exe ":ccl"
     exe ":update"
     if expand("%:e") == "c" || expand("%:e") == "cpp" || expand("%:e") == "cxx"
@@ -123,7 +124,7 @@ func! Compile()
     endif
     exe ":setlocal makeprg=make"
 endfunc
- 
+
 func! Link()
     call Compile()
     if s:Sou_Error || s:LastShellReturn_C != 0
@@ -179,7 +180,7 @@ func! Link()
     endif
     setlocal makeprg=make
 endfunc
- 
+
 func! Run()
     let s:ShowWarning = 0
     call Link()
