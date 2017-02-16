@@ -961,7 +961,8 @@ if has("gui_running")
         "set guifont=DejaVu\ Sans\ Mono\ 11
         set guifont=Monaco\ 12,Monospace\ 12
     elseif has("gui_win32")
-        set guifont=Monaco\ 12,Monospace\ 12
+        set guifont=Courier\ New:b:h16
+        "set guifont=Monaco\ 12,Monospace\ 12
         "set guifont=DejaVu_Sans_Mono:h11
     endif
     set guioptions-=T
@@ -1012,7 +1013,13 @@ set t_Co=256
 " colorscheme Tomorrow-Night
 " colorscheme Tomorrow-Night-Bright
 " colorscheme desert
-
+"https://github.com/sickill/vim-monokai
+colorscheme monokai
+"color theme: brogrammer
+"for sublime
+"https://github.com/kenwheeler/brogrammer-theme
+"for vim
+"https://github.com/marciomazza/vim-brogrammer-theme
 
 
 " 设置标记一列的背景颜色和数字一行颜色一致
