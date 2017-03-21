@@ -1,0 +1,253 @@
+
+"==========================================
+" Theme Settings  主题设置
+"==========================================
+
+" Set extra options when running in GUI mode
+set guifont=Courier\ New\ Bold\ 16
+if has("gui_running")
+    "set guifont=Monaco:h14
+    if has("gui_gtk2")
+        set guifont=Courier\ New\ Bold\ 16,Monospace\ 12
+    elseif has("gui_macvim")
+        "set guifont=DejaVu\ Sans\ Mono\ 11
+        set guifont=Monaco\ 12,Monospace\ 12
+    elseif has("gui_win32")
+        set guifont=Monaco\ 12,Monospace\ 12
+        "set guifont=DejaVu_Sans_Mono:h11
+    endif
+    set guioptions-=T
+    set guioptions+=e
+    set guioptions-=r
+    set guioptions-=L
+    set guitablabel=%M\ %t
+    set showtabline=1
+    set linespace=2
+    set noimd
+    set t_Co=256
+endif
+
+
+
+
+
+
+
+
+
+
+
+
+"   WinManager窗口管理器
+"  winmanager   {{{
+
+let g:AutoOpenWinManager = 0 "这里要配合修改winmanager.vim文件，见下方说明"
+
+"nmap <silent> <F7> :WMToggle<cr>
+
+"let g:winManagerWindowLayout='FileExplorer|TagList'
+
+let g:winManagerWindowLayout='NERDTree|Tagbar'
+let g:winManagerWidth=30
+
+let g:NERDTree_title = "[NERDTree]"
+
+function! NERDTree_Start()
+    exe 'q'
+    exe 'NERDTree'
+endfunction
+
+function! NERDTree_IsValid()
+    return 1
+endfunction
+
+
+let g:Tagbar_title = "[Tagbar]"
+function! Tagbar_Start()
+    exe 'q'
+    exe 'TagbarOpen'
+endfunction
+
+
+function! Tagbar_IsValid()
+    return 1
+endfunction
+
+
+
+" }}}
+
+"   http://unix.stackexchange.com/questions/92942/gvim-nerdtree-and-tagbar-above-each-other-left-to-edited-file
+"   vim - NerdTree and tagbar above each other left to edited file?
+function! ToggleNERDTreeAndTagbar( )
+    let w:jumpbacktohere = 1
+
+
+    " Detect which plugins are open
+    if exists('t:NERDTreeBufName')
+        let nerdtree_open = bufwinnr(t:NERDTreeBufName) != -1
+    else
+        let nerdtree_open = 0
+    endif
+
+    let tagbar_open = bufwinnr('__Tagbar__') != -1
+
+    " Perform the appropriate action
+    if nerdtree_open && tagbar_open
+        NERDTreeClose
+        TagbarClose
+    elseif nerdtree_open
+        TagbarOpen
+        wincmd J
+        wincmd k
+        wincmd L
+    elseif tagbar_open
+        NERDTreeToggle
+        wincmd J
+        wincmd k
+        wincmd L
+    else
+        TagbarOpen
+        NERDTreeToggle
+        wincmd J
+        wincmd k
+        wincmd L
+    endif
+
+    " Jump back to the original window
+    for window in range(1, winnr('$'))
+        execute window . 'wincmd w'
+        if exists('w:jumpbacktohere')
+            unlet w:jumpbacktohere
+            break
+        endif
+    endfor
+endfunction
+
+nnoremap <F7> :call ToggleNERDTreeAndTagbar()<CR>
+
+
+" ################### 语言相关 ###################
+
+" quickrun {{{
+    let g:quickrun_config = {
+    \   "_" : {
+    \       "outputter" : "loclist",
+    \   },
+    \}
+
+    let g:quickrun_no_default_key_mappings = 1
+    nmap <Leader>r <Plug>(quickrun)
+    "map <F9> :QuickRun<CR>
+" }}}
+
+
+" pythonsyntax {{{
+    let python_highlight_all = 1
+" }}}
+
+
+" vimgo {{{
+    let g:go_highlight_functions = 1
+    let g:go_highlight_methods = 1
+    let g:go_highlight_structs = 1
+    let g:go_highlight_operators = 1
+    let g:go_highlight_build_constraints = 1
+
+    let g:go_fmt_fail_silently = 1
+    " let g:go_fmt_command = "goimports"
+    " let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+" }}}
+
+" markdown {{{
+    let g:vim_markdown_folding_disabled=1
+" }}}
+
+
+" javascript {{{
+    " pangloss/vim-javascript
+    let g:html_indent_inctags = "html,body,head,tbody"
+    let g:html_indent_script1 = "inc"
+    let g:html_indent_style1 = "inc"
+" }}}
+
+" json {{{
+    let g:vim_json_syntax_conceal = 0
+" }}}
+
+" css {{{
+" }}}
+
+" nginx {{{
+" }}}
+
+
+" ####### temp #######
+
+" beta {{{
+    " python code format
+    " format all file
+    autocmd FileType python nnoremap <leader>y :0,$!yapf<Cr>
+    " format select block
+    " autocmd FileType python vnoremap <leader>y :!yapf<Cr>
+
+    " Plug 'mindriot101/vim-yapf'
+    " scriptencoding utf-8
+    " let g:yapf_style = "google"
+    " let g:yapf_style = "pep8"
+    " setenv PYTHONIOENCODING UTF-8
+    " nnoremap <leader>y :call Yapf()<cr>
+" }}}
+
+"""""""""""""""""""""""""
+"
+"  VIM一键翻译系统
+"
+"""""""""""""""""""""""""
+
+"  有道翻译插件
+"  https://github.com/ianva/vim-youdao-translater
+"  注：插件依赖于python 的 Requests， 安装 Requests：sudo pip install requests。
+
+Plug 'ianva/vim-youdao-translater'
+"Bundle git://git.ianva.com/vim-youdao-translater.git
+"Bundle  https://github.com/ianva/vim-youdao-translater
+vnoremap <silent> <C-A> <Esc>:Ydv<CR>
+nnoremap <silent> <C-A> <Esc>:Ydc<CR>
+noremap <leader>yd :Yde<CR>
+
+"  如何使用
+
+"  在普通模式下，按 ctrl+t， 会翻译当前光标下的单词；
+"  在 visual 模式下选中单词，按 ctrl+t，会翻译选择的单词；
+"  点击引导键再点y，d，可以在命令行输入要翻译的单词；
+"  译文将会在编辑器底部的命令栏显示。"
+
+" https://github.com/iamcco/dict.vim
+Plug 'iamcco/dict.vim'
+"  有道openapi的key
+let g:api_key = "1932136763"
+let g:keyfrom = "aioiyuuko"
+
+"默认快捷键绑定：
+
+"nmap <silent> <Leader>d <Plug>DictSearch
+""--普通模式下，<Leader>d 即可翻译光标下的文本，并在命令行回显
+
+"vmap <silent> <Leader>d <Plug>DictVSearch
+""--可视化模式下，<Leader>d 即可翻译选中的文本，并在命令行回显
+
+"nmap <silent> <Plug>DictWSearch
+""--普通模式下，<Leader>w 即可翻译光标下的文本，并且在Dict新窗口显示
+"vmap <silent> <Plug>DictWVSearch
+""--可视化模式下，<Leader>w 即可翻译选中的文本，并且在Dict新窗口显示
+"Dict窗口中 q 键关闭Dict窗口
+
+"nmap <silent> <Leader><Leader>r <Plug>DictRSearch
+""--普通模式下，<Leader><Leader>r 即可翻译光标下的单词，并替换为翻译的结果
+
+"vmap <silent> <Leader><Leader>r <Plug>DictRVSearch
+""--可视化模式下，<Leader><Leader>r 即可翻译光标下的单词，并替换为翻译的结果
+
+"------------------------------------------- end of configs --------------------------------------------
+
